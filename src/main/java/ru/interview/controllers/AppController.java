@@ -69,7 +69,11 @@ public class AppController {
                     historyService.addToHistory(principal.getName(), currencyFrom, currencyTo, countFrom,result);
 
                     model.addAttribute("result", result);
+                } else {
+                    model.addAttribute("error", "Проверьте корректность введенных данных");
                 }
+        } else if(!requestMap.isEmpty()){
+            model.addAttribute("error", "Проверьте корректность введенных данных");
         }
 
         //отправляем лист валют, для формирования выпадающего списка

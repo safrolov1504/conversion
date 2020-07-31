@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Profile</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+<div class="container">
+    <div th:replace="~{navigation :: navigation(Profile)}" />
+    <h1><span th:text="#{phrase.main}" class="badge badge-secondary"></span></h1>
+    <h4><span th:text="#{phrase.profile}" class="badge badge-secondary"></span></h4>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <td th:text="#{profile.name}"></td>
+            <td th:text="#{profile.firstName}"></td>
+            <td th:text="#{profile.secndName}"></td>
+            <td th:text="#{profile.email}"></td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr >
+            <td th:text="${user.firstName}"></td>
+            <td th:text="${user.secondName}"></td>
+            <td th:text="${user.name}"></td>
+            <td th:text="${user.email}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

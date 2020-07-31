@@ -24,4 +24,6 @@ public interface HistoryRepository extends JpaRepository<History,Long>, JpaSpeci
     List<History> findAllByUserAndCurrency1AndCurrency2(User userByName, Currency currencyFrom, Currency currencyTo);
 
     List<History> findAllByUserAndCurrency2(User userByName, Currency currencyTo);
+
+    void deleteAllByUser(User userByName);
 }

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Admin</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+<div class="container">
+    <div th:replace="~{navigation :: navigation(Admin)}" />
+    <h1><span th:text="#{phrase.main}" class="badge badge-secondary"></span></h1>
+    <h4><span th:text="#{phrase.admin}" class="badge badge-secondary"></span></h4>
+
+    <h2>Администрирование юзеров</h2>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <td th:text="#{admin.userName}"></td>
+            <td th:text="#{admin.firstname}"></td>
+            <td th:text="#{admin.secondName}"></td>
+            <td th:text="#{admin.email}"></td>
+            <td th:text="#{admin.tableAction}"></td>
+        </tr>
+        </thead>
+        <tbody>
+        <!--/*@thymesVar id="products" type="java.util.List<com.geekbrains.hw4.model.Product>"*/-->
+        <tr th:each="u : ${users}">
+            <!--/*@thymesVar id="product" type="com.geekbrains.hw4.model.Product"*/-->
+            <td th:text="${u.getFirstName()}"></td>
+            <td th:text="${u.getSecondName()}"></td>
+            <td th:text="${u.getEmail()}"></td>
+            <td><a  th:with = "base = (${u.getStatus() == 'true' ? '/admin/block' : '/admin/unblock'})"
+                    th:href="@{${base}(id=${u.id})}"
+                    class="btn btn-warning"
+                    th:text="${u.getStatus() == 'true' ? 'Деактивировать': 'Aктивировать'}"></a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

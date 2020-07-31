@@ -7,6 +7,7 @@ import javax.annotation.PostConstruct;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Data
@@ -30,6 +31,8 @@ public class Currency {
     @Column(name = "name")
     private String name;
 
+//    @OneToMany(mappedBy = "сurrency_value")
+//    private List<CurrencyValue> currencyValues;
 //    @ManyToMany
 //    @JoinTable(name = "currency_сurrency_value",
 //            joinColumns = @JoinColumn (name = "currency_id"),

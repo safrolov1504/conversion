@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Conversion</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div th:replace="~{navigation :: navigation(History)}" />
+        <h1><span th:text="#{phrase.main}" class="badge badge-secondary"></span></h1>
+        <h4><span th:text="#{phrase.addNew}" class="badge badge-secondary"></span></h4>
+
+        <div class="alert alert-warning" role="alert"
+             th:hidden="${error == null ? true : false}" th:text="${error == null ? '' : error}">
+        </div>
+
+        <form>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label th:text="#{newUser.userName}" ></label>
+                    <input th:name="name" type="text" class="form-control"
+                           th:value="${param.name != null ? param.name: ''}">
+                </div>
+                <div class="form-group col-md-6">
+                    <label th:text="#{newUser.password}" ></label>
+                    <input th:name="password" type="password" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <label th:text="#{newUser.email}" >Address</label>
+                <input th:name="email" type="email" class="form-control" id="inputAddress"
+                       th:value="${param.email != null ? param.email: ''}">
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label th:text="#{newUser.firstName}" ></label>
+                    <input th:name="first_name" type="text" class="form-control"
+                           th:value="${param.first_name != null ? param.first_name: ''}">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputPassword4" th:text="#{newUser.secondName}"></label>
+                    <input th:name="second_name" type="text" class="form-control" id="inputPassword4"
+                           th:value="${param.second_name != null ? param.second_name: ''}">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary" th:text="#{newUser.add}"></button>
+        </form>
+
+    </div>
+</body>
+</html>

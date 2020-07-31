@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.interview.utils.StaticFaction;
 import ru.interview.model.Currency;
 import ru.interview.model.History;
@@ -50,26 +51,16 @@ public class HistoryService {
         historyRepository.save(history);
     }
 
-    public List<History> findAllByUserName(User userByName) {
-        return historyRepository.findAllByUser(userByName);
-    }
-
-    public List<History> findAllByUserName(Specification<History> spec, User userByName) {
-        historyRepository.findAll(spec);
-//        historyRepository.findAll(spec,userByName);
+    public List<History> findAllByUserName(Specification<History> spec) {
         return historyRepository.findAll(spec);
     }
 
-
-    public List<History> findAllByUserNameAndCurrency1(User userByName, Currency currencyFrom) {
-        return historyRepository.findAllByUserAndCurrency1(userByName,currencyFrom);
+    public void delById(Long id) {
+        historyRepository.deleteById(id);
     }
 
-    public List<History> findAllByUserNameAndCurrency1AndCurrency1(User userByName, Currency currencyFrom, Currency currencyTo) {
-        return historyRepository.findAllByUserAndCurrency1AndCurrency2(userByName,currencyFrom,currencyTo);
-    }
-
-    public List<History> findAllByUserNameAndCurrency2(User userByName, Currency currencyTo) {
-        return historyRepository.findAllByUserAndCurrency2(userByName,currencyTo);
+    @Transactional
+    public void delAllByUser(User userByName) {
+        historyRepository.deleteAllByUser(userByName);
     }
 }

@@ -32,6 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/app/**").authenticated()
                 .antMatchers("/history/**").authenticated()
                 .antMatchers("/profile/**").authenticated()
+                .antMatchers("/statistic/**").authenticated()
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()

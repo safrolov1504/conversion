@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.interview.model.Currency;
@@ -45,48 +46,25 @@ public class HistoryController {
         List<Currency> currencies = currencyService.getAllCurrencies();
         model.addAttribute("currencies",currencies);
 
-        //проверяем корректность введеных данных в поиске
-        Currency currencyFrom = null;
-        if(requestParam.containsKey("currency_from_search")){
-            //достаем валюты из которой переводят
-            String currencyFromS = requestParam.get("currency_from_search");
-            String[] s = currencyFromS.split(" ");
-            currencyFromS = s[0];
-            currencyFrom = currencyService.findOneByCharCode(currencyFromS);
-        }
+        //добавялем фильтр
+        HistoryFilter historyFilter = new HistoryFilter(requestParam,currencyService,userService.findUserByName(principal.getName()));
 
-        Currency currencyTo = null;
-        if(requestParam.containsKey("currency_to_search")){
-            //достаем валюты из которой переводят
-            String currencyToS = requestParam.get("currency_to_search");
-            String[] s = currencyToS.split(" ");
-            currencyToS = s[0];
-            currencyTo = currencyService.findOneByCharCode(currencyToS);
-        }
+        List<History> histories = historyService.findAllByUserName(historyFilter.getSpec());
+        model.addAttribute("histories",histories);
 
-        try {
-            HistoryFilter historyFilter = new HistoryFilter(requestParam);
-
-
-            List<History> histories;
-            //случай когда и две валюты выбраны
-            if(currencyFrom != null && currencyTo != null){
-                histories = historyService
-                        .findAllByUserNameAndCurrency1AndCurrency1(userService.findUserByName(principal.getName()),currencyFrom,currencyTo);
-            } else if(currencyFrom != null){
-                //случай когда один заполнен
-                histories = historyService.findAllByUserNameAndCurrency1(userService.findUserByName(principal.getName()),currencyFrom);
-            } else if(currencyTo != null){
-                //случай когда один заполнен
-                histories = historyService.findAllByUserNameAndCurrency2(userService.findUserByName(principal.getName()),currencyTo);
-            } else {
-                //загружаем историю когда нет фильтра
-                histories = historyService.findAllByUserName(historyFilter.getSpec(), userService.findUserByName(principal.getName()));
-            }
-            model.addAttribute("histories",histories);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
         return "history";
     }
+
+    @GetMapping("/clear")
+    public String historyClean(Principal principal){
+        historyService.delAllByUser(userService.findUserByName(principal.getName()));
+        return "redirect:/history";
+    }
+
+    @GetMapping("/del/{id}")
+    public String historyDel(@PathVariable Long id, Model model){
+        historyService.delById(id);
+        return "redirect:/history";
+    }
+
 }

@@ -168,4 +168,7 @@ public class CurrencyService  {
         return currencyRepository.findOneByCharCode(currencyCahrCode);
     }
 
+    public List<Currency> findAllByCharCode(String currency_statistic) {
+        return currencyRepository.findAllByCharCode(currency_statistic);
+    }
 }

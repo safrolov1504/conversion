@@ -10,6 +10,10 @@ import java.util.List;
 
 @Repository
 public interface CurrencyValueRepository extends JpaRepository<CurrencyValue,Long> {
+    
     List<CurrencyValue> findAllByDate(Date date);
+    
     CurrencyValue findOneByCurrencyAndDate(Currency currency, Date date);
+
+    List<CurrencyValue> findAllByCurrency(Currency currency);
 }
