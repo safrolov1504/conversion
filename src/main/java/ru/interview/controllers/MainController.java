@@ -64,6 +64,7 @@ public class MainController {
             user.setEmail(request.get("email"));
             user.setFirstName(request.get("first_name"));
             user.setSecondName(request.get("second_name"));
+            user.setStatus("true");
 
             List<Role> roles = new ArrayList<>();
             Role role = new Role();

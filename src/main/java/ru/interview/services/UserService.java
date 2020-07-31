@@ -30,6 +30,11 @@ public class UserService implements UserDetailsService {
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findOneByName(username).orElseThrow(() -> new UsernameNotFoundException("Invalid username or password"));
+
+        if (user.getStatus().equals("false")){
+            throw new UsernameNotFoundException("User is blocked");
+        }
+
         return new org.springframework.security.core.userdetails.User(user.getName(), user.getPassword(),
                 mapRolesToAuthorities(user.getRoles()));
     }
@@ -48,5 +53,12 @@ public class UserService implements UserDetailsService {
 
     public void save(User user) {
         userRepository.save(user);
+    }
+
+    public void changeStatus(String id, String status) {
+        Long idLong = Long.parseLong(id);
+        User newUser = userRepository.findById(idLong).get();
+        newUser.setStatus(status);
+        userRepository.save(newUser);
     }
 }

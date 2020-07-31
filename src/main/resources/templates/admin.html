@@ -16,8 +16,6 @@
     <div th:replace="~{navigation :: navigation(Admin)}" />
     <h1><span th:text="#{phrase.main}" class="badge badge-secondary"></span></h1>
     <h4><span th:text="#{phrase.admin}" class="badge badge-secondary"></span></h4>
-
-    <h2>Администрирование юзеров</h2>
     <table class="table table-striped">
         <thead>
         <tr>
@@ -32,6 +30,7 @@
         <!--/*@thymesVar id="products" type="java.util.List<com.geekbrains.hw4.model.Product>"*/-->
         <tr th:each="u : ${users}">
             <!--/*@thymesVar id="product" type="com.geekbrains.hw4.model.Product"*/-->
+            <td th:text="${u.name}"></td>
             <td th:text="${u.getFirstName()}"></td>
             <td th:text="${u.getSecondName()}"></td>
             <td th:text="${u.getEmail()}"></td>
@@ -42,6 +41,50 @@
         </tr>
         </tbody>
     </table>
+
+    <h4><span class="badge badge-secondary" th:text="#{admin.phrase.clearHistory}"></span></h4>
+    <div class="alert alert-warning" role="alert"
+         th:hidden="${error == null ? true : false}" th:text="${error == null ? '' : error}">
+    </div>
+    <form class="form-inline">
+        <div class="form-group mx-sm-3 mb-2">
+<!--            <label class="sr-only" th:text="#{admin.button.clearHistory}"></label>-->
+            <select  name="userName" class="form-control">
+                <option th:with="base = #{admin.choose}" th:text="${param.userName == null ? base : param.userName}"></option>
+                <option th:each="u:${users}"
+                        th:text="${u.name}"></option>
+                <option th:text="#{admin.choose}"></option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary mb-2" th:text="#{admin.button.clearHistoryByUser}"></button>
+    </form>
+    <a th:href="@{'/admin/clearHistory'}" class="btn btn-primary" th:text="#{admin.button.clearHistory}"></a>
+
+    <h4></h4>
+
+    <h4><span class="badge badge-secondary" th:text="#{admin.phrase.clearHistoryCurrency}"></span></h4>
+    <a th:href="@{'/admin/clearHistoryCurrency'}" class="btn btn-primary" th:text="#{admin.button.clearHistoryCurrency}"></a>
+
+    <h4></h4>
+
+    <h4><span class="badge badge-secondary" th:text="#{admin.phrase.updateCurrency}"></span></h4>
+        <a th:href="@{'/admin/updateCurrency'}" class="btn btn-primary" th:text="#{admin.button.updateCurrency}"></a>
+
+    <h4></h4>
+
+    <h4><span class="badge badge-secondary" th:text="#{admin.phrase.updateCurrencyByDate}"></span></h4>
+    <div class="alert alert-warning" role="alert"
+         th:hidden="${error == null ? true : false}" th:text="${error == null ? '' : error}">
+    </div>
+    <form class="form-inline">
+        <div class="form-group mx-sm-3 mb-2">
+            <label class="sr-only" th:text="#{admin.button.updateCurrencyByDate}"></label>
+            <input name="dateUpdate" type="date" class="form-control" th:placeholder="#{admin.examDate}">
+        </div>
+        <button type="submit" class="btn btn-primary mb-2" th:text="#{admin.button.updateCurrencyByDate}"></button>
+    </form>
+
+
 </div>
 </body>
 </html>

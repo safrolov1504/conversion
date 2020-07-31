@@ -20,4 +20,8 @@ public class CurrencyValueService {
     public List<CurrencyValue> getAllByCurrency(Currency currency) {
         return currencyValueRepository.findAllByCurrency(currency);
     }
+
+    public void delAll() {
+        currencyValueRepository.deleteAll();
+    }
 }

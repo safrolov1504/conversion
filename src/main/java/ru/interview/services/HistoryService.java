@@ -63,4 +63,8 @@ public class HistoryService {
     public void delAllByUser(User userByName) {
         historyRepository.deleteAllByUser(userByName);
     }
+
+    public void delAll() {
+        historyRepository.deleteAll();
+    }
 }
