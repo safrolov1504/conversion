@@ -16,7 +16,7 @@ import java.util.Map;
 @Getter
 public class HistoryFilter {
     private Specification<History> spec;
-
+    private String error;
     public HistoryFilter(Map<String, String> requestParam) throws ParseException {
         spec = Specification.where(null);
 
@@ -36,7 +36,7 @@ public class HistoryFilter {
 
 
     public HistoryFilter(Map<String, String> requestParam, CurrencyService currencyService, User user) {
-
+        error = null;
         //добавялем фильтр дата от
         spec = Specification.where(null);
         try {
@@ -45,7 +45,9 @@ public class HistoryFilter {
                 spec = spec.and(HistorySpecifications.fromThisDate(date));
             }
         } catch (ParseException e) {
-            //добавить проверку правильности ввода
+            if(!requestParam.get("date_from_search").equals("")){
+                error = "Проверьте правильность введенных данных";
+            }
         }
 
         //добавялем проверку дата до
@@ -55,8 +57,9 @@ public class HistoryFilter {
                 spec = spec.and(HistorySpecifications.fromTillThisDate(date));
             }
         } catch (ParseException e) {
-            //??????????
-            //добавить проверку правильности ввода
+            if(!requestParam.get("date_to_search").equals("")){
+                error = "Проверьте правильность введенных данных";
+            }
         }
 
         //добавляем проверку валюта из

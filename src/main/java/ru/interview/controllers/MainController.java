@@ -14,6 +14,7 @@ import ru.interview.services.CurrencyService;
 import ru.interview.services.UserService;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -34,7 +35,7 @@ public class MainController {
 
     @GetMapping("/")
     public String mainPage(){
-        currencyService.initiation();
+        currencyService.initiation(Calendar.getInstance().getTime());
         return "index";
     }
 

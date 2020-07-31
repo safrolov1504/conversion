@@ -8,11 +8,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.interview.model.CurrencyValue;
 import ru.interview.model.User;
+import ru.interview.repositories.HistorySpecifications;
 import ru.interview.services.CurrencyService;
 import ru.interview.services.CurrencyValueService;
 import ru.interview.services.HistoryService;
 import ru.interview.services.UserService;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -50,9 +54,14 @@ public class AdminController {
         List<User> users = userService.findAll();
         model.addAttribute("users",users);
 
-        //обработка запроса на обновление даты на определнный день
+        //обработка запроса на добавление курса валют на определнный день на определнный день
         if(dateUpdate!=null){
-
+            try {
+                    Date date = new SimpleDateFormat("yyyy-MM-dd").parse(dateUpdate);
+                    currencyService.initiation(date);
+            } catch (ParseException e) {
+                model.addAttribute("error2", "Введите данные корректно. Неправильный формат даты. Требуемый формат yyyy-MM-dd");
+            }
         }
 
         //Обработка функции очистки истории одного пользователя
@@ -84,12 +93,6 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    //очистка всю истории курса валют
-    @GetMapping("/clearHistoryCurrency")
-    public String clearHistoryCurrency(){
-        currencyValueService.delAll();
-        return "redirect:/admin";
-    }
 
     //запрос на обновление валют в ЦБ
     @GetMapping("/updateCurrency")

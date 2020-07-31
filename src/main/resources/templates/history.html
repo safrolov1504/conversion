@@ -16,6 +16,10 @@
         <h1><span th:text="#{phrase.main}" class="badge badge-secondary"></span></h1>
         <h4><span th:text="#{phrase.history}" class="badge badge-secondary"></span></h4>
 
+        <div class="alert alert-warning" role="alert"
+             th:hidden="${error == null ? true : false}" th:text="${error == null ? '' : error}">
+        </div>
+
         <form th:accept="@{'/app'}" method="get">
             <div class="form-group">
                 <label th:text="#{history.table.currFrom}"></label>
@@ -70,7 +74,7 @@
                 <td th:text="${h.currency2.charCode}"></td>
                 <td th:text="${h.countCur1}"></td>
                 <td th:text="${h.countCur2}"></td>
-                <td th:text="${h.date}"></td>
+                <td th:text="${#dates.format(h.date, 'dd-MM-yyyy')}"></td>
                 <td><a th:text="#{history.table.del}" th:href="@{'/history/del/' + ${h.id}}" class="btn btn-warning" ></a></td>
             </tr>
             </tbody>

@@ -37,7 +37,8 @@
             <td><a  th:with = "base = (${u.getStatus() == 'true' ? '/admin/block' : '/admin/unblock'})"
                     th:href="@{${base}(id=${u.id})}"
                     class="btn btn-warning"
-                    th:text="${u.getStatus() == 'true' ? 'Деактивировать': 'Aктивировать'}"></a></td>
+                    th:text="${u.getStatus() == 'true' ? 'Деактивировать': 'Aктивировать'}"
+                    th:hidden="${u.name == 'admin' ? true: false}"></a></td>
         </tr>
         </tbody>
     </table>
@@ -48,7 +49,6 @@
     </div>
     <form class="form-inline">
         <div class="form-group mx-sm-3 mb-2">
-<!--            <label class="sr-only" th:text="#{admin.button.clearHistory}"></label>-->
             <select  name="userName" class="form-control">
                 <option th:with="base = #{admin.choose}" th:text="${param.userName == null ? base : param.userName}"></option>
                 <option th:each="u:${users}"
@@ -60,12 +60,9 @@
     </form>
     <a th:href="@{'/admin/clearHistory'}" class="btn btn-primary" th:text="#{admin.button.clearHistory}"></a>
 
-    <h4></h4>
-
-    <h4><span class="badge badge-secondary" th:text="#{admin.phrase.clearHistoryCurrency}"></span></h4>
-    <a th:href="@{'/admin/clearHistoryCurrency'}" class="btn btn-primary" th:text="#{admin.button.clearHistoryCurrency}"></a>
 
     <h4></h4>
+
 
     <h4><span class="badge badge-secondary" th:text="#{admin.phrase.updateCurrency}"></span></h4>
         <a th:href="@{'/admin/updateCurrency'}" class="btn btn-primary" th:text="#{admin.button.updateCurrency}"></a>
@@ -74,12 +71,13 @@
 
     <h4><span class="badge badge-secondary" th:text="#{admin.phrase.updateCurrencyByDate}"></span></h4>
     <div class="alert alert-warning" role="alert"
-         th:hidden="${error == null ? true : false}" th:text="${error == null ? '' : error}">
+         th:hidden="${error2 == null ? true : false}" th:text="${error2 == null ? '' : error2}">
     </div>
     <form class="form-inline">
         <div class="form-group mx-sm-3 mb-2">
             <label class="sr-only" th:text="#{admin.button.updateCurrencyByDate}"></label>
-            <input name="dateUpdate" type="date" class="form-control" th:placeholder="#{admin.examDate}">
+            <input name="dateUpdate" type="date" class="form-control" th:placeholder="#{admin.examDate}"
+                   th:value="${param.dateUpdate != null ? param.dateUpdate: ''}">
         </div>
         <button type="submit" class="btn btn-primary mb-2" th:text="#{admin.button.updateCurrencyByDate}"></button>
     </form>

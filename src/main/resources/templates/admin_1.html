@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Admin</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+<div class="container">
+    <div th:replace="~{navigation :: navigation(Admin)}" />
+    <h1><span th:text="#{phrase.main}" class="badge badge-secondary"></span></h1>
+    <h4><span th:text="#{phrase.admin}" class="badge badge-secondary"></span></h4>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <td th:text="#{admin.userName}"></td>
+            <td th:text="#{admin.firstname}"></td>
+            <td th:text="#{admin.secondName}"></td>
+            <td th:text="#{admin.email}"></td>
+            <td th:text="#{admin.tableAction}"></td>
+        </tr>
+        </thead>
+        <tbody>
+        <!--/*@thymesVar id="products" type="java.util.List<com.geekbrains.hw4.model.Product>"*/-->
+        <tr th:each="u : ${users}">
+            <!--/*@thymesVar id="product" type="com.geekbrains.hw4.model.Product"*/-->
+            <td th:text="${u.name}"></td>
+            <td th:text="${u.getFirstName()}"></td>
+            <td th:text="${u.getSecondName()}"></td>
+            <td th:text="${u.getEmail()}"></td>
+            <td><a  th:with = "base = (${u.getStatus() == 'true' ? '/admin/block' : '/admin/unblock'})"
+                    th:href="@{${base}(id=${u.id})}"
+                    class="btn btn-warning"
+                    th:text="${u.getStatus() == 'true' ? 'Деактивировать': 'Aктивировать'}"
+                    th:hidden="${u.name == 'admin' ? true: false}"></a></td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="form-row">
+        <h4><span class="badge badge-secondary " th:text="#{admin.phrase.clearHistory}"></span></h4>
+
+        <div class="form-group col-md-2">
+            <div class="alert alert-warning" role="alert"
+                 th:hidden="${error == null ? true : false}" th:text="${error == null ? '' : error}">
+            </div>
+            <form class="form-row">
+                <div class="form-group mx-sm-3 mb-2">
+                    <select  name="userName" class="form-control">
+                        <option th:with="base = #{admin.choose}" th:text="${param.userName == null ? base : param.userName}"></option>
+                        <option th:each="u:${users}"
+                                th:text="${u.name}"></option>
+                       <option th:text="#{admin.choose}"></option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary mb-2" th:text="#{admin.button.clearHistoryByUser}"></button>
+                <a th:href="@{'/admin/clearHistory'}" class="btn btn-primary" th:text="#{admin.button.clearHistory}"></a>
+            </form>
+
+        </div>
+    </div>
+
+
+    <div class="form-row">
+        <h4><span class="badge badge-secondary" th:text="#{admin.phrase.updateCurrency}"></span></h4>
+            <a th:href="@{'/admin/updateCurrency'}" class="btn btn-primary" th:text="#{admin.button.updateCurrency}"></a>
+    </div>
+
+    <div class="form-row">
+        <h4><span class="badge badge-secondary" th:text="#{admin.phrase.updateCurrencyByDate}"></span></h4>
+        <div class="form-group col-md-2">
+            <div class="alert alert-warning" role="alert"
+                 th:hidden="${error2 == null ? true : false}" th:text="${error2 == null ? '' : error2}">
+            </div>
+            <form class="form-inline">
+                <div class="form-group mx-sm-3 mb-2">
+                    <label class="sr-only" th:text="#{admin.button.updateCurrencyByDate}"></label>
+                    <input name="dateUpdate" type="date" class="form-control" th:placeholder="#{admin.examDate}"
+                       th:value="${param.dateUpdate != null ? param.dateUpdate: ''}">
+                </div>
+                <button type="submit" class="btn btn-primary mb-2" th:text="#{admin.button.updateCurrencyByDate}"></button>
+            </form>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

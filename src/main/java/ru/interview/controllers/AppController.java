@@ -12,6 +12,7 @@ import ru.interview.services.CurrencyService;
 import ru.interview.services.HistoryService;
 
 import java.security.Principal;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -61,7 +62,7 @@ public class AppController {
                     Double countFrom = Double.parseDouble(countFromS);
 
                     //проверяем есть ли актуальная информация о валютах в БД
-                    currencyService.initiation();
+                    currencyService.initiation(Calendar.getInstance().getTime());
 
                     Double result = StaticFaction.round(currencyService.result(currencyFrom,currencyTo,countFrom),3);
 

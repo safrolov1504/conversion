@@ -16,6 +16,8 @@ import ru.interview.utils.HistoryFilter;
 
 import java.security.Principal;
 import java.text.ParseException;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -50,6 +52,10 @@ public class HistoryController {
         HistoryFilter historyFilter = new HistoryFilter(requestParam,currencyService,userService.findUserByName(principal.getName()));
 
         List<History> histories = historyService.findAllByUserName(historyFilter.getSpec());
+        if(historyFilter.getError() != null){
+            model.addAttribute("error",historyFilter.getError());
+        }
+        Collections.sort(histories);
         model.addAttribute("histories",histories);
 
         return "history";

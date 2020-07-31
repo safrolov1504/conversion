@@ -32,7 +32,7 @@ import java.util.List;
 public class CurrencyService  {
     private CurrencyRepository currencyRepository;
     private CurrencyValueRepository currencyValueRepository;
-    private Date date;
+    //private Date date;
 
     @Autowired
     public void setCurrencyRepository(CurrencyRepository currencyRepository) {
@@ -44,15 +44,22 @@ public class CurrencyService  {
     }
 
     @PostConstruct
-    public void initiation(){
+    public void init() {
+        initiation(Calendar.getInstance().getTime());
+    }
 
+    public void initiation(Date date){
+//        if(date == null){
+//            date = Calendar.getInstance().getTime();
+//        }
         //проверяем если информация в БД о валюте сегодня.
         // Возвращает true если информации нет и ее надо обновить
-        if(checkCurrencyToday()){
+        if(checkCurrencyToday(date)){
 
             //создаем ссылку с текущей датой
             StringBuilder urlCbr = new StringBuilder();
-            this.date = Calendar.getInstance().getTime();
+
+            //this.date = Calendar.getInstance().getTime();
             urlCbr.append("http://www.cbr.ru/scripts/XML_daily.asp?date_req=");
             urlCbr.append(new SimpleDateFormat("dd/MM/yyyy").format(date));
 
@@ -70,7 +77,7 @@ public class CurrencyService  {
                 NodeList nodeList = document.getElementsByTagName("Valute");
 
                 //обрабатываем рубль
-                addRub();
+                addRub(date);
 
                 //обрабатываем всю остальную валюту
                 CurrencyValue currencyValue;
@@ -113,29 +120,33 @@ public class CurrencyService  {
     }
 
     //метод добавляет всю информацию о рубле
-    private void addRub() {
-        CurrencyValue currencyValue = new CurrencyValue();
-        Currency currency = new Currency();
-        currency.setNumCode(643);
-        currency.setCharCode("RUB");
-        currency.setNominal(1);
-        currency.setName("Российский рубль");
-        currencyRepository.save(currency);
-        currencyValue.setCurrency(currency);
-        currencyValue.setValue(1);
-        currencyValue.setDate(date);
-        currencyValueRepository.save(currencyValue);
+    private void addRub(Date date) {
+        Currency currency = currencyRepository.findOneByNumCode(643);
+        if(currency == null) {
+            currency = new Currency();
+            currency.setNumCode(643);
+            currency.setCharCode("RUB");
+            currency.setNominal(1);
+            currency.setName("Российский рубль");
+            currencyRepository.save(currency);
+        }
 
+        CurrencyValue currencyValue = new CurrencyValue();
         currencyValue.setCurrency(currency);
         currencyValue.setValue(1);
         currencyValue.setDate(date);
         currencyValueRepository.save(currencyValue);
+//        currencyValue.setCurrency(currency);
+//        currencyValue.setValue(1);
+//        currencyValue.setDate(date);
+//        currencyValueRepository.save(currencyValue);
+
     }
 
     //проверяем, если актуальная информация о валютах в БД
-    public boolean checkCurrencyToday(){
+    public boolean checkCurrencyToday(Date date){
         //запрашиваем все данные о валюте сегодня
-        this.date = Calendar.getInstance().getTime();
+//        date = Calendar.getInstance().getTime();
         List<CurrencyValue> currencyValues = currencyValueRepository.findAllByDate(date);
 
         if (currencyValues.size() == 0){
@@ -146,9 +157,9 @@ public class CurrencyService  {
     }
 
     public Double result(String currencyFrom, String currencyTo, Double countFrom){
+        Date date = Calendar.getInstance().getTime();
         Double currencyValueFrom = getCurrencyValue(currencyFrom,date);
         Double currencyValueTo = getCurrencyValue(currencyTo,date);
-//        System.out.println(currencyValueFrom+ " " + currencyValueTo);
         Double result = (currencyValueFrom * countFrom)/currencyValueTo;
 
         return result;

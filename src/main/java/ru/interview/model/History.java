@@ -11,7 +11,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @Table(name = "history")
-public class History {
+public class History implements Comparable<History>{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -37,4 +37,9 @@ public class History {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @Override
+    public int compareTo(History o) {
+        return o.getDate().compareTo(this.date);
+    }
 }

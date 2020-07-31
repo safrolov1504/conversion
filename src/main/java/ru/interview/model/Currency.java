@@ -31,6 +31,7 @@ public class Currency {
     @Column(name = "name")
     private String name;
 
+
 //    @OneToMany(mappedBy = "сurrency_value")
 //    private List<CurrencyValue> currencyValues;
 //    @ManyToMany

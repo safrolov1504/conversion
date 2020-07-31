@@ -10,7 +10,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @Table(name = "сurrency_value")
-public class CurrencyValue {
+public class CurrencyValue implements Comparable<CurrencyValue>{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -25,4 +25,9 @@ public class CurrencyValue {
     @ManyToOne
     @JoinColumn(name = "currency_id")
     private Currency currency;
+
+    @Override
+    public int compareTo(CurrencyValue o) {
+        return o.getDate().compareTo(this.date);
+    }
 }

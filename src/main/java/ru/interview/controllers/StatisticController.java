@@ -12,6 +12,7 @@ import ru.interview.repositories.HistorySpecifications;
 import ru.interview.services.CurrencyService;
 import ru.interview.services.CurrencyValueService;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -46,6 +47,9 @@ public class StatisticController {
         }
         if(currency != null){
             List<CurrencyValue> currencyValues = currencyValueService.getAllByCurrency(currency);
+
+            Collections.sort(currencyValues);
+
             model.addAttribute("currencyValues",currencyValues);
         }
 

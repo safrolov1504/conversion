@@ -27,7 +27,7 @@
                 </select>
             </div>
             <button type="submit" class="btn btn-primary" th:text="#{statistic.submit}"></button>
-            <a type="button" th:href="@{'/history'}" class="btn btn-danger" th:text="#{statistic.clearFilter}">Сбросить фильтр</a>
+            <a th:href="@{'/history'}" class="btn btn-danger" th:text="#{statistic.clearFilter}">Сбросить фильтр</a>
         </form>
 
         <table class="table table-hover">
@@ -43,7 +43,7 @@
             <tr th:each="s :  ${currencyValues}">
                 <td th:text="${currency}"></td>
                 <td th:text="${s.value}"></td>
-                <td th:text="${s.date}"></td>
+                <td th:text="${#dates.format(s.date, 'dd-MM-yyyy')}"></td>
             </tr>
             </tbody>
         </table>

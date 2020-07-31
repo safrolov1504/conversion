@@ -14,6 +14,7 @@ import ru.interview.repositories.UserRepository;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -44,7 +45,12 @@ public class UserService implements UserDetailsService {
     }
 
     public User findUserByName(String user){
-        return userRepository.findOneByName(user).get();
+        Optional<User> oneByName = userRepository.findOneByName(user);
+        if(oneByName.isEmpty()){
+            return null;
+        } else {
+            return oneByName.get();
+        }
     }
 
     public List<User> findAll(){
