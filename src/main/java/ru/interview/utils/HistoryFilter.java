@@ -17,23 +17,6 @@ import java.util.Map;
 public class HistoryFilter {
     private Specification<History> spec;
     private String error;
-    public HistoryFilter(Map<String, String> requestParam) throws ParseException {
-        spec = Specification.where(null);
-
-        //добавить проверку правильности ввода
-        if(requestParam.containsKey("date_from_search")){
-            Date date = new SimpleDateFormat("yyyy-MM-dd").parse(requestParam.get("date_from_search"));
-            spec = spec.and(HistorySpecifications.fromThisDate(date));
-        }
-
-        if(requestParam.containsKey("date_to_search")){
-            Date date = new SimpleDateFormat("yyyy-MM-dd").parse(requestParam.get("date_to_search"));
-            spec = spec.and(HistorySpecifications.fromTillThisDate(date));
-        }
-
-
-    }
-
 
     public HistoryFilter(Map<String, String> requestParam, CurrencyService currencyService, User user) {
         error = null;

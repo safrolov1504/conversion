@@ -25,6 +25,9 @@ public class History implements Comparable<History>{
     @JoinColumn(name = "cur2_id")
     private Currency currency2;
 
+    @Column(name = "currency_value_by_date")
+    private Double currencyByDate;
+
     @Column(name = "count_cur1")
     private Double countCur1;
 

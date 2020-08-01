@@ -32,12 +32,4 @@ public class Currency {
     private String name;
 
 
-//    @OneToMany(mappedBy = "сurrency_value")
-//    private List<CurrencyValue> currencyValues;
-//    @ManyToMany
-//    @JoinTable(name = "currency_сurrency_value",
-//            joinColumns = @JoinColumn (name = "currency_id"),
-//            inverseJoinColumns = @JoinColumn(name = "сurrency_value_id"))
-//    private Collection<CurrencyValue> currencyValues;
-//
 }

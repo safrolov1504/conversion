@@ -28,6 +28,11 @@ public class RoleService {
         return roleRepository.findAll();
     }
 
+
+    public List<Role> findOneByName(String roleName){
+        return roleRepository.findOneByName(roleName);
+    }
+
     //метод добавляет админа по умолчанию и роли
     public void addRoleAndAdmin(){
         //создаем роли для системы
@@ -44,18 +49,5 @@ public class RoleService {
 
         //создаем админа по умолчанию
         userService.addMainAdmin(roles);
-
-//        User user = new User();
-//        user.setName("admin");
-//        user.setPassword("$2a$10$pJy/486kV7yjOg/dNwF4ROiFt7ZasZa/UCrK2KbW562YkR7xPfeY.");
-//        user.setFirstName("Main admin");
-//        user.setSecondName("Main admin");
-//        user.setEmail("admin@admin.ru");
-//        user.setRoles(roles);
-//        userService.save(user);
-    }
-
-    public List<Role> findOneByName(String roleName){
-        return roleRepository.findOneByName(roleName);
     }
 }

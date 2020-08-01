@@ -61,6 +61,7 @@
             <tr>
                 <th scope="col" th:text="#{history.table.currFrom}"></th>
                 <th scope="col" th:text="#{history.table.currTo}"></th>
+                <th scope="col" th:text="#{history.table.currByDate}"></th>
                 <th scope="col" th:text="#{history.table.countFrom}"></th>
                 <th scope="col" th:text="#{history.table.countTo}"></th>
                 <th scope="col" th:text="#{history.table.date}"></th>
@@ -72,6 +73,7 @@
             <tr th:each="h : ${histories}">
                 <td th:text="${h.currency1.charCode}"></td>
                 <td th:text="${h.currency2.charCode}"></td>
+                <td th:text="${h.getCurrencyByDate()}"></td>
                 <td th:text="${h.countCur1}"></td>
                 <td th:text="${h.countCur2}"></td>
                 <td th:text="${#dates.format(h.date, 'dd-MM-yyyy')}"></td>

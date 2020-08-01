@@ -21,7 +21,4 @@ public class CurrencyValueService {
         return currencyValueRepository.findAllByCurrency(currency);
     }
 
-    public void delAll() {
-        currencyValueRepository.deleteAll();
-    }
 }

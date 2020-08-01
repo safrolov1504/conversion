@@ -6,9 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import ru.interview.model.CurrencyValue;
 import ru.interview.model.User;
-import ru.interview.repositories.HistorySpecifications;
 import ru.interview.services.CurrencyService;
 import ru.interview.services.CurrencyValueService;
 import ru.interview.services.HistoryService;
@@ -16,6 +14,7 @@ import ru.interview.services.UserService;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -31,17 +30,14 @@ public class AdminController {
     public void setCurrencyService(CurrencyService currencyService) {
         this.currencyService = currencyService;
     }
-
     @Autowired
     public void setCurrencyValueService(CurrencyValueService currencyValueService) {
         this.currencyValueService = currencyValueService;
     }
-
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
-
     @Autowired
     public void setHistoryService(HistoryService historyService) {
         this.historyService = historyService;
@@ -54,17 +50,17 @@ public class AdminController {
         List<User> users = userService.findAll();
         model.addAttribute("users",users);
 
-        //обработка запроса на добавление курса валют на определнный день на определнный день
+        //обработка запроса на добавление курса валют на определнный день
         if(dateUpdate!=null){
             try {
-                    Date date = new SimpleDateFormat("YYYY-MM-DD").parse(dateUpdate);
-                    currencyService.initiation(date);
+                Date date = new SimpleDateFormat("YYYY-MM-DD").parse(dateUpdate);
+                currencyService.initiation(date);
             } catch (ParseException e) {
                 model.addAttribute("error2", "Введите данные корректно. Неправильный формат даты. Требуемый формат YYYY-MM-DD");
             }
         }
 
-        //Обработка функции очистки истории одного пользователя
+        //Обработка функции очистки истории одного пользователя из админа
         if(userName != null){
             System.out.println(userName);
             User user = userService.findUserByName(userName);
@@ -94,10 +90,10 @@ public class AdminController {
     }
 
 
-    //запрос на обновление валют в ЦБ
+    //запрос на обновление валют в ЦБ на сегоднешню дату
     @GetMapping("/updateCurrency")
     public String updateCurrency(){
-
+        currencyService.initiation(Calendar.getInstance().getTime());
         return "redirect:/admin";
     }
 

@@ -8,12 +8,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.interview.model.Currency;
 import ru.interview.model.CurrencyValue;
-import ru.interview.repositories.HistorySpecifications;
 import ru.interview.services.CurrencyService;
 import ru.interview.services.CurrencyValueService;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 @Controller
@@ -45,11 +43,11 @@ public class StatisticController {
             currency = currencyService.findOneByCharCode(currency_statistic);
             model.addAttribute("currency",currency.getCharCode());
         }
+
+        //проверяем, что в запросе пришло точно сокращение от валюты, а не дургой текст
         if(currency != null){
             List<CurrencyValue> currencyValues = currencyValueService.getAllByCurrency(currency);
-
             Collections.sort(currencyValues);
-
             model.addAttribute("currencyValues",currencyValues);
         }
 

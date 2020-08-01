@@ -6,7 +6,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.interview.model.Role;
@@ -23,7 +22,6 @@ public class UserService implements UserDetailsService {
     private UserRepository userRepository;
     private RoleRepository roleRepository;
 
-
     @Autowired
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -38,11 +36,9 @@ public class UserService implements UserDetailsService {
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findOneByName(username).orElseThrow(() -> new UsernameNotFoundException("Invalid username or password"));
-
         if (user.getStatus().equals("false")){
             throw new UsernameNotFoundException("User is blocked");
         }
-
         return new org.springframework.security.core.userdetails.User(user.getName(), user.getPassword(),
                 mapRolesToAuthorities(user.getRoles()));
     }
@@ -64,9 +60,6 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
-    public void save(User user) {
-        userRepository.save(user);
-    }
 
     public void changeStatus(String id, String status) {
         Long idLong = Long.parseLong(id);

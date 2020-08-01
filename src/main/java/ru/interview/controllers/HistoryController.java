@@ -44,7 +44,7 @@ public class HistoryController {
     @GetMapping
     public String history(Model model, Principal principal,
                           @RequestParam Map<String,String> requestParam){
-        //отправляем лист валют, для формирования выпадающего списка
+        //запрашиваем лист валют, для формирования выпадающего списка
         List<Currency> currencies = currencyService.getAllCurrencies();
         model.addAttribute("currencies",currencies);
 
@@ -61,12 +61,14 @@ public class HistoryController {
         return "history";
     }
 
+    //удаление всей истории пользователя
     @GetMapping("/clear")
     public String historyClean(Principal principal){
         historyService.delAllByUser(userService.findUserByName(principal.getName()));
         return "redirect:/history";
     }
 
+    //удаление выбраной строчки
     @GetMapping("/del/{id}")
     public String historyDel(@PathVariable Long id, Model model){
         historyService.delById(id);

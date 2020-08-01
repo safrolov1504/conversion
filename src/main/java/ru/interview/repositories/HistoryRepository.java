@@ -13,17 +13,6 @@ import java.util.List;
 
 @Repository
 public interface HistoryRepository extends JpaRepository<History,Long>, JpaSpecificationExecutor<History> {
-    //List<History> findAllByUser(Specification<History> spec, User userByName);
-
-    List<History> findAllByUser(User userByName);
-
-//    List<History> findAllByUser(Specification<History> spec, User userByName);
-
-    List<History> findAllByUserAndCurrency1(User userByName, Currency currencyFrom);
-
-    List<History> findAllByUserAndCurrency1AndCurrency2(User userByName, Currency currencyFrom, Currency currencyTo);
-
-    List<History> findAllByUserAndCurrency2(User userByName, Currency currencyTo);
 
     void deleteAllByUser(User userByName);
 }

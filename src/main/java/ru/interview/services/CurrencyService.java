@@ -1,6 +1,5 @@
 package ru.interview.services;
 
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
@@ -15,8 +14,6 @@ import ru.interview.repositories.CurrencyRepository;
 import ru.interview.repositories.CurrencyValueRepository;
 
 import javax.annotation.PostConstruct;
-import javax.persistence.Column;
-import javax.xml.crypto.Data;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -33,7 +30,6 @@ public class CurrencyService  {
     private CurrencyRepository currencyRepository;
     private CurrencyValueRepository currencyValueRepository;
     private RoleService roleService;
-    //private Date date;
 
     @Autowired
     public void setCurrencyRepository(CurrencyRepository currencyRepository) {
@@ -64,14 +60,11 @@ public class CurrencyService  {
     }
 
     public void initiation(Date date){
-//        if(date == null){
-//            date = Calendar.getInstance().getTime();
-//        }
         //проверяем если информация в БД о валюте сегодня.
         // Возвращает true если информации нет и ее надо обновить
         if(checkCurrencyToday(date)){
 
-            //создаем ссылку с текущей датой
+            //создаем ссылку в ЦБ с текущей датой
             StringBuilder urlCbr = new StringBuilder();
 
             //this.date = Calendar.getInstance().getTime();
@@ -86,7 +79,6 @@ public class CurrencyService  {
                 builder = factory.newDocumentBuilder();
                 Document document = builder.parse(new InputSource(url.openStream()));
                 document.getDocumentElement().normalize();
-                // получаем узлы с именем Language
                 // теперь XML полностью загружен в память
                 // в виде объекта Document
                 NodeList nodeList = document.getElementsByTagName("Valute");
@@ -151,17 +143,11 @@ public class CurrencyService  {
         currencyValue.setValue(1);
         currencyValue.setDate(date);
         currencyValueRepository.save(currencyValue);
-//        currencyValue.setCurrency(currency);
-//        currencyValue.setValue(1);
-//        currencyValue.setDate(date);
-//        currencyValueRepository.save(currencyValue);
-
     }
 
     //проверяем, если актуальная информация о валютах в БД
     public boolean checkCurrencyToday(Date date){
         //запрашиваем все данные о валюте сегодня
-//        date = Calendar.getInstance().getTime();
         List<CurrencyValue> currencyValues = currencyValueRepository.findAllByDate(date);
 
         if (currencyValues.size() == 0){
@@ -171,6 +157,7 @@ public class CurrencyService  {
         }
     }
 
+    //считает результат перевода
     public Double result(String currencyFrom, String currencyTo, Double countFrom){
         Date date = Calendar.getInstance().getTime();
         Double currencyValueFrom = getCurrencyValue(currencyFrom,date);

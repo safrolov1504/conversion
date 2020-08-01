@@ -1,7 +1,6 @@
 package ru.interview.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,6 +37,8 @@ public class HistoryService {
         History history = new History();
         User user = userService.findUserByName(name);
         history.setUser(user);
+
+        history.setCurrencyByDate(result/countFrom);
 
         Currency currency = currencyService.findOneByCharCode(currencyFrom);
         history.setCurrency1(currency);
