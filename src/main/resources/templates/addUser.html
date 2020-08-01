@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -12,7 +12,7 @@
 
 <body>
     <div class="container">
-        <div th:replace="~{navigation :: navigation(History)}" />
+        <div th:replace="~{navigation :: navigation(NewUser)}" />
         <h1><span th:text="#{phrase.main}" class="badge badge-secondary"></span></h1>
         <h4><span th:text="#{phrase.addNew}" class="badge badge-secondary"></span></h4>
 
@@ -49,6 +49,15 @@
                            th:value="${param.second_name != null ? param.second_name: ''}">
                 </div>
             </div>
+
+            <label sec:authorize="hasRole('ROLE_ADMIN')" th:text="#{admin.chooseRole}"></label>
+            <select  sec:authorize="hasRole('ROLE_ADMIN')" name="choose_role" class="form-control">
+                <option th:with="base = #{admin.choose}" th:text="${param.choose_role == null ? base : param.choose_role}"></option>
+                <option th:each="r:${roles}"
+                        th:text="${r.name}"></option>
+                <option th:text="#{admin.choose}"></option>
+            </select>
+
             <button type="submit" class="btn btn-primary" th:text="#{newUser.add}"></button>
         </form>
 

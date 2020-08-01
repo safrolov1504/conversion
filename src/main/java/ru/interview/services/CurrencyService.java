@@ -32,6 +32,7 @@ import java.util.List;
 public class CurrencyService  {
     private CurrencyRepository currencyRepository;
     private CurrencyValueRepository currencyValueRepository;
+    private RoleService roleService;
     //private Date date;
 
     @Autowired
@@ -43,9 +44,23 @@ public class CurrencyService  {
         this.currencyValueRepository = currencyValueRepository;
     }
 
+    @Autowired
+    public void setRoleService(RoleService roleService) {
+        this.roleService = roleService;
+    }
+
     @PostConstruct
     public void init() {
         initiation(Calendar.getInstance().getTime());
+        initUser();
+    }
+
+    private void initUser() {
+        if(roleService.findAll().isEmpty()){
+            //если при включении база данных ролей пуская, то значит нет администратора и ролей в БД
+            //добавляим роли  ROLE_ADMIN и ROLE_USER и админа по-умолчанию с паролем 100 и именем admin
+            roleService.addRoleAndAdmin();
+        }
     }
 
     public void initiation(Date date){

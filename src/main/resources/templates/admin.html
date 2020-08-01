@@ -23,6 +23,7 @@
             <td th:text="#{admin.firstname}"></td>
             <td th:text="#{admin.secondName}"></td>
             <td th:text="#{admin.email}"></td>
+            <td th:text="#{admin.role}"></td>
             <td th:text="#{admin.tableAction}"></td>
         </tr>
         </thead>
@@ -34,6 +35,7 @@
             <td th:text="${u.getFirstName()}"></td>
             <td th:text="${u.getSecondName()}"></td>
             <td th:text="${u.getEmail()}"></td>
+            <td th:text="${u.getRoles()}"></td>
             <td><a  th:with = "base = (${u.getStatus() == 'true' ? '/admin/block' : '/admin/unblock'})"
                     th:href="@{${base}(id=${u.id})}"
                     class="btn btn-warning"

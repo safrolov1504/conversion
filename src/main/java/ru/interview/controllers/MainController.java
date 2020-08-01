@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ru.interview.model.Role;
 import ru.interview.model.User;
 import ru.interview.services.CurrencyService;
+import ru.interview.services.RoleService;
 import ru.interview.services.UserService;
 
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ import java.util.Map;
 public class MainController {
     private UserService userService;
     private CurrencyService currencyService;
+    private RoleService roleService;
 
     @Autowired
     public void setCurrencyService(CurrencyService currencyService) {
@@ -31,6 +33,11 @@ public class MainController {
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
+    }
+
+    @Autowired
+    public void setRoleService(RoleService roleService) {
+        this.roleService = roleService;
     }
 
     @GetMapping("/")
@@ -54,31 +61,55 @@ public class MainController {
             && request.containsKey("first_name")&& !request.get("first_name").isEmpty()
             && request.containsKey("second_name")&& !request.get("second_name").isEmpty()){
 
-            User user = new User();
-            user.setName(request.get("name"));
+            //проверка, что такой пользователь с таким именем уже есть
+            if(userService.findUserByName(request.get("name")) == null){
+                if(request.containsKey("choose_role")){
+                    //проверка что выбрана роль
+                    if(!roleService.findOneByName(request.get("choose_role")).isEmpty()){
+                        userService.addUser(request,request.get("choose_role"));
+                        model.addAttribute("error", "Пользователь добавлен");
+                        return "redirect:/addUser/";
 
-            user.setPassword(request.get("password"));
-            BCryptPasswordEncoder bcryptEncoder = new BCryptPasswordEncoder();
-            String password = bcryptEncoder.encode(request.get("password"));
-            user.setPassword(password);
+                    } else {
+                        model.addAttribute("error", "Выберите роль нового пользователя");
+                    }
+                } else {
+                    userService.addUser(request,"ROLE_USER");
+                    return "redirect:/";
+                }
+            } else {
+                model.addAttribute("error", "Пользователь с таким логино уже существует");
+            }
 
-            user.setEmail(request.get("email"));
-            user.setFirstName(request.get("first_name"));
-            user.setSecondName(request.get("second_name"));
-            user.setStatus("true");
 
-            List<Role> roles = new ArrayList<>();
-            Role role = new Role();
-            role.setId(1l);
-            role.setName("USER");
-            roles.add(role);
+//            User user = new User();
+//            user.setName(request.get("name"));
+//
+//            user.setPassword(request.get("password"));
+//            BCryptPasswordEncoder bcryptEncoder = new BCryptPasswordEncoder();
+//            String password = bcryptEncoder.encode(request.get("password"));
+//            user.setPassword(password);
+//
+//            user.setEmail(request.get("email"));
+//            user.setFirstName(request.get("first_name"));
+//            user.setSecondName(request.get("second_name"));
+//            user.setStatus("true");
+//
+//            List<Role> roles = new ArrayList<>();
+//            Role role = new Role();
+//            role.setId(1l);
+//            role.setName("USER");
+//            roles.add(role);
+//
+//            user.setRoles(roles);
+//            userService.save(user);
 
-            user.setRoles(roles);
-            userService.save(user);
-            return "redirect:/";
         } else if(!request.isEmpty()){
             model.addAttribute("error", "Проверьте корректность введенных данных");
         }
+        List<Role> roles = roleService.findAll();
+        model.addAttribute("roles",roles);
+
         return "addUser";
     }
 }

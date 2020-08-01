@@ -34,6 +34,9 @@
                 <li sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item" th:classappend="${activeTab == 'Admin' ? 'active' : ''}">
                     <a class="nav-link" th:href="@{'/admin/'}" th:text="#{nav.admin}"></a>
                 </li>
+                <li sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item" th:classappend="${activeTab == 'NewUser' ? 'active' : ''}">
+                    <a class="nav-link" th:href="@{'/addUser/'}" th:text="#{nav.addNewUserAdmin}"></a>
+                </li>
                 <li sec:authorize="isAuthenticated()" class="nav-item">
                     <form th:action="@{/logout}" method="POST">
                         <button id="navLogout" class="btn btn-outline-secondary" type="submit"  th:text="#{nav.logout}"></button>

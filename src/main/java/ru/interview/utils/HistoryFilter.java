@@ -46,7 +46,7 @@ public class HistoryFilter {
             }
         } catch (ParseException e) {
             if(!requestParam.get("date_from_search").equals("")){
-                error = "Проверьте правильность введенных данных";
+                error = "Проверьте правильность введенных данных. Формат ввода даты YYYY-MM-DD";
             }
         }
 
@@ -58,7 +58,7 @@ public class HistoryFilter {
             }
         } catch (ParseException e) {
             if(!requestParam.get("date_to_search").equals("")){
-                error = "Проверьте правильность введенных данных";
+                error = "Проверьте правильность введенных данных. Формат ввода даты YYYY-MM-DD";
             }
         }
 

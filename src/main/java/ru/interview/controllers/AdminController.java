@@ -57,10 +57,10 @@ public class AdminController {
         //обработка запроса на добавление курса валют на определнный день на определнный день
         if(dateUpdate!=null){
             try {
-                    Date date = new SimpleDateFormat("yyyy-MM-dd").parse(dateUpdate);
+                    Date date = new SimpleDateFormat("YYYY-MM-DD").parse(dateUpdate);
                     currencyService.initiation(date);
             } catch (ParseException e) {
-                model.addAttribute("error2", "Введите данные корректно. Неправильный формат даты. Требуемый формат yyyy-MM-dd");
+                model.addAttribute("error2", "Введите данные корректно. Неправильный формат даты. Требуемый формат YYYY-MM-DD");
             }
         }
 

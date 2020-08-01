@@ -1,5 +1,7 @@
 package ru.interview.utils;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 public class StaticFaction {
     public static double round(Double value, int places) {
         Double scale = Math.pow(10, places);
@@ -13,5 +15,10 @@ public class StaticFaction {
         } catch (NumberFormatException e) {
             return false;
         }
+    }
+
+    public static String encodePassword(String passwordIn){
+        BCryptPasswordEncoder bcryptEncoder = new BCryptPasswordEncoder();
+        return bcryptEncoder.encode(passwordIn);
     }
 }
