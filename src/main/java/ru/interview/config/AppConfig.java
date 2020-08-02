@@ -15,10 +15,8 @@ import java.util.Locale;
 public class AppConfig implements WebMvcConfigurer {
     @Bean
     public LocaleResolver localeResolver() {
-        Locale locale = Locale.getDefault();
-        String displayLanguage = locale.getDisplayLanguage();
         SessionLocaleResolver sessionLocaleResolver = new SessionLocaleResolver();
-        sessionLocaleResolver.setDefaultLocale(new Locale(displayLanguage));
+        sessionLocaleResolver.setDefaultLocale(new Locale("ru"));
         return sessionLocaleResolver;
     }
 
