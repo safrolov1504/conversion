@@ -50,7 +50,7 @@ public class StatisticController {
             Collections.sort(currencyValues);
             model.addAttribute("currencyValues",currencyValues);
         }
-
+        model.addAttribute("errorUrl",currencyService.getErrorUrl());
         return "statistic";
     }
 }

@@ -26,8 +26,9 @@
                     <option th:text="#{statistic.choose}"></option>
                 </select>
             </div>
-            <button type="submit" class="btn btn-primary" th:text="#{statistic.submit}"></button>
-            <a th:href="@{'/statistic'}" class="btn btn-danger" th:text="#{statistic.clearFilter}">Сбросить фильтр</a>
+            <button th:hidden="${errorUrl != null ? true : false}" type="submit" class="btn btn-primary" th:text="#{statistic.submit}"></button>
+            <a th:hidden="${errorUrl != null ? true : false}"
+               th:href="@{'/statistic'}" class="btn btn-danger" th:text="#{statistic.clearFilter}">Сбросить фильтр</a>
         </form>
 
         <table class="table table-hover">

@@ -54,7 +54,8 @@
                 </div>
             </div>
 
-            <button th:text="#{app.submit}" type="submit" class="btn btn-primary"></button>
+            <button th:text="#{app.submit}" type="submit" class="btn btn-primary"
+                    th:hidden="${errorUrl != null ? true : false}"></button>
         </form>
     </div>
 </body>

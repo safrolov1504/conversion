@@ -84,6 +84,16 @@
         <button type="submit" class="btn btn-primary mb-2" th:text="#{admin.button.updateCurrencyByDate}"></button>
     </form>
 
+    <h4><span class="badge badge-secondary" th:text="#{admin.button.updateUrl}"></span></h4>
+    <h4><span class="badge badge-secondary" th:text="#{admin.button.updateUrlNow}"></span></h4>
+    <h4><span class="badge badge-secondary" th:text="${urlNow}"></span></h4>
+    <form th:action="@{/admin/changeUrl}" class="form-inline">
+        <div class="form-group mx-sm-3 mb-2">
+            <input name="newUrl" type="date" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary mb-2" th:text="#{admin.button.updateUrlButton}"></button>
+    </form>
+
 
 </div>
 </body>

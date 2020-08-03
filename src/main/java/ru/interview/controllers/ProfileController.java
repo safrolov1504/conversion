@@ -26,6 +26,7 @@ public class ProfileController {
         System.out.println(name);
         User user = userService.findUserByName(name);
         model.addAttribute("user",user);
+
         return "profile";
     }
 }

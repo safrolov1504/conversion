@@ -57,7 +57,7 @@ public class HistoryController {
         }
         Collections.sort(histories);
         model.addAttribute("histories",histories);
-
+        model.addAttribute("errorUrl",currencyService.getErrorUrl());
         return "history";
     }
 

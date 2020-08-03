@@ -7,10 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.interview.model.User;
-import ru.interview.services.CurrencyService;
-import ru.interview.services.CurrencyValueService;
-import ru.interview.services.HistoryService;
-import ru.interview.services.UserService;
+import ru.interview.services.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -23,6 +20,7 @@ import java.util.List;
 public class AdminController {
     private CurrencyService currencyService;
     private CurrencyValueService currencyValueService;
+    private UrlService urlService;
     private UserService userService;
     private HistoryService historyService;
 
@@ -41,6 +39,10 @@ public class AdminController {
     @Autowired
     public void setHistoryService(HistoryService historyService) {
         this.historyService = historyService;
+    }
+    @Autowired
+    public void setUrlService(UrlService urlService) {
+        this.urlService = urlService;
     }
 
     @GetMapping
@@ -70,6 +72,9 @@ public class AdminController {
                 model.addAttribute("error", "Выберите пользователя");
             }
         }
+
+        model.addAttribute("urlNow", urlService.getOneByDate());
+        model.addAttribute("errorUrl",currencyService.getErrorUrl());
         return "admin";
     }
 
@@ -101,6 +106,13 @@ public class AdminController {
     @GetMapping("/clearHistory")
     public String clearCurrency(){
         historyService.delAll();
+        return "redirect:/admin";
+    }
+
+    //изменение ссылки на сайт ЦБ
+    @GetMapping("/changeUrl")
+    public String changeUrl(@RequestParam (required = false) String newUrl){
+        urlService.setNewUrl(newUrl);
         return "redirect:/admin";
     }
 }
