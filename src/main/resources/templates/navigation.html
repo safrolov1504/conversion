@@ -53,4 +53,7 @@
             </ul>
         </div>
     </nav>
+    <div class="alert alert-warning" role="alert"
+         th:hidden="${errorUrl == null ? true : false}" th:text="${errorUrl == null ? '' : errorUrl}">
+    </div>
 </div>

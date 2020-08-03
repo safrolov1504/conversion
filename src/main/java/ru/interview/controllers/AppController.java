@@ -80,6 +80,7 @@ public class AppController {
         //отправляем лист валют, для формирования выпадающего списка
         List<Currency> currencies = currencyService.getAllCurrencies();
         model.addAttribute("currencies",currencies);
+        model.addAttribute("errorUrl",currencyService.getErrorUrl());
         return "app";
     }
 
